@@ -1,27 +1,59 @@
-# AngularBasics
+# Tv Guide
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.4.
+A "TV guide" website that uses an API, and few pages to display what is currently showing.
 
-## Development server
+# Objectives
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Recreate a project previously developed in React, in Angular
+- Work with RouterLink
+- Use Services, Models, and Components
 
-## Code scaffolding
+# Includes: 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [ANGULAR](https://angular.io/start)
+- [ROUTERLINK](https://angular.io/api/router/RouterLink)
+- [HTTPCLIENT](https://angular.io/api/common/http/HttpClient)
 
-## Build
+- [API INTEGRATION](https://developers.themoviedb.org/3/getting-started/introduction)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+# Requirements 
 
-## Running unit tests
+- Use [The Movie Db API](https://developers.themoviedb.org/3/getting-started/introduction) 
+- Create a home page that has:
+  - the list of all "Top Trending" movies, returned from this API `https://api.themoviedb.org/3/trending/movie/week?api_key=<<api_key>>`
+  - this page should also highlight a random "Top Rated" TV show at the top of the page
+- Create a `/movie/:movieId page` that shows all the details for a given show and the cast of the show. The cast and crew end point is `https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=<<api_key>>&language=en-US`
+ 
+## Live Site
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[LIVE SITE](https://austinparvin-tv-guide-angular.netlify.app/)
 
-## Running end-to-end tests
+![TV Guide Live Site](http://g.recordit.co/vWwo4XTyP1.gif)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Featured Code
 
-## Further help
+### MovieService using typed Oberservables to create functions to set http get responses to class variables
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```TypeScript
+export class MovieService {
+  movies: any;
+  cast: any;
+  private movieUrl: string =
+    'https://api.themoviedb.org/3/trending/movie/week?api_key=37569221602edd820d2cf3580496deaa';
+
+  constructor(private http: HttpClient) {}
+
+  getMovies(): Observable<IMoviesResponse> {
+    this.movies = this.http.get<IMoviesResponse>(this.movieUrl);
+    return this.movies;
+  }
+
+  getMovieCast(movieId: string): Observable<ICreditsResponse> {
+    this.cast = this.http.get<ICreditsResponse>(
+      `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=37569221602edd820d2cf3580496deaa&language=en-US`
+    );
+    return this.cast;
+  }
+}
+ ```
+ 
