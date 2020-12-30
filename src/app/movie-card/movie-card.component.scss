@@ -1,0 +1,27 @@
+.movie-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 2rem 0;
+  box-shadow: 0px 2px 10px;
+  width: 350px;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.movie-card-img {
+  text-align: right;
+  font-size: 2rem;
+  padding: 2rem;
+  color: #fff;
+  background-color: black;
+  height: 460px;
+  background-position: center;
+}
+
+.movie-card-description {
+  border-top: black 0.1rem solid;
+  padding: 1rem;
+}

@@ -1,0 +1,18 @@
+<div class="movie-card">
+  <a [routerLink]="['/movie', movie.id]">
+    <section
+      [ngStyle]="{
+        'background-image':
+          'url(https://image.tmdb.org/t/p/w400' + movie.poster_path + ')'
+      }"
+      class="movie-card-img"
+    >
+      {{ movie.popularity }}
+    </section>
+
+    <section class="movie-card-description">
+      <h1>{{ movie.name }}</h1>
+      <p>{{ movie.overview }}</p>
+    </section>
+  </a>
+</div>

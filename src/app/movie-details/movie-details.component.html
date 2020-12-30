@@ -1,0 +1,16 @@
+<div *ngIf="movie && cast">
+  <section
+    class="movie-poster"
+    [ngStyle]="{
+      'background-image':
+        'url(https://image.tmdb.org/t/p/w400' + movie.poster_path + ')'
+    }"
+  ></section>
+  <h2>{{ movie.title }}</h2>
+  <h2>{{ movie.release_date }}</h2>
+
+  <h2>Cast</h2>
+  <ul *ngFor="let person of cast">
+    <li>{{ person.name }}</li>
+  </ul>
+</div>
