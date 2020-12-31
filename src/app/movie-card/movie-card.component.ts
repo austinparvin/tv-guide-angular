@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MovieService } from '../movie.service';
 
 @Component({
@@ -8,8 +8,16 @@ import { MovieService } from '../movie.service';
 })
 export class MovieCardComponent implements OnInit {
   @Input() movie: any;
+  @Output() number = new EventEmitter<number>();
   constructor(private movieService: MovieService) {}
 
+  // functionality that send data back up to the parent
+
+
   ngOnInit() {
+  }
+
+  choseOption(option: number){
+    this.number.emit(option);
   }
 }

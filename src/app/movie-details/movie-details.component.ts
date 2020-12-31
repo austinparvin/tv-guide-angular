@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IMovie } from '../models/movie';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { MovieService } from '../movie.service';
 
 @Component({
@@ -8,27 +9,39 @@ import { MovieService } from '../movie.service';
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.scss'],
 })
-export class MovieDetailsComponent implements OnInit {
+export class MovieDetailsComponent implements OnInit, OnDestroy {
   movie: any;
   cast: any;
-  movies: IMovie[] = [];
-  movieIdFromRoute: any;
+
+  private unSub = new Subject<void>();
+
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService
   ) {}
 
   ngOnInit() {
-    this.movieIdFromRoute = this.route.snapshot.paramMap.get('movieId');
-    this.movieService.getMovies().subscribe((data) => {
-      this.movies = data.results;
-      this.movie = this.movies.find((movie) => {
-        return movie.id === Number(this.movieIdFromRoute);
-      });
-    });
+    const movieIdFromRoute = this.route.snapshot.paramMap.get('movieId');
 
-    this.movieService.getMovieCast(this.movieIdFromRoute).subscribe((data) => {
-      this.cast = data.cast;
-    });
+    if (movieIdFromRoute) {
+      this.movieService
+        .getMovie(movieIdFromRoute)
+        .pipe(takeUntil(this.unSub))
+        .subscribe((data) => {
+          this.movie = data;
+        });
+
+      this.movieService
+        .getMovieCast(movieIdFromRoute)
+        .pipe(takeUntil(this.unSub))
+        .subscribe((data) => {
+          this.cast = data.cast;
+        });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unSub.next();
+    this.unSub.complete();
   }
 }

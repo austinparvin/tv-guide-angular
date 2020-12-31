@@ -1,10 +1,14 @@
 <div class="movie-list">
+  <h1>Option Selcted: {{ chosenOption }}</h1>
   <h1>Featured Movie</h1>
   <div class="top-movies">
     <app-movie-card [movie]="movies[randomNumber]"></app-movie-card>
   </div>
   <h1>Top Movies</h1>
   <div class="top-movies" *ngFor="let movie of movies">
-    <app-movie-card [movie]="movie"></app-movie-card>
+    <app-movie-card
+      (number)="displayOption($event)"
+      [movie]="movie"
+    ></app-movie-card>
   </div>
 </div>
