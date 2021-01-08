@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IMovie } from '../models/movie';
 import { MovieService } from '../movie.service';
 
 @Component({
@@ -8,16 +9,12 @@ import { MovieService } from '../movie.service';
 })
 export class MovieCardComponent implements OnInit {
   @Input() movie: any;
-  @Output() number = new EventEmitter<number>();
+  @Output() favoriteMovieEmmiter = new EventEmitter<IMovie>();
   constructor(private movieService: MovieService) {}
 
-  // functionality that send data back up to the parent
+  ngOnInit() {}
 
-
-  ngOnInit() {
-  }
-
-  choseOption(option: number){
-    this.number.emit(option);
+  emitFavoriteMovie(movie: IMovie) {
+    this.favoriteMovieEmmiter.emit(movie);
   }
 }

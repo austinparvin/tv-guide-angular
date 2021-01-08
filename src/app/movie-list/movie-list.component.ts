@@ -12,18 +12,20 @@ import { MovieService } from '../movie.service';
 export class MovieListComponent implements OnInit, OnDestroy {
   movies: IMovie[] = [];
   randomNumber: number = 0;
-  chosenOption: number = 0;
+  favoritedMovie: IMovie | undefined;
 
+  // unSub Subjects are required when we subscribe to an Observable
+  // Technically http requests act as a take once, meaning they aren't actively looking to a response once they get one back,
+  
   private unSub = new Subject<void>();
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit() {
-    this.movieService
-      .getMovies()
+    this.movieService.moviesOb$
       .pipe(takeUntil(this.unSub))
       .subscribe((data) => {
-        this.movies = data.results;
+        this.movies = data;
         this.randomNumber = Math.floor(Math.random() * this.movies.length);
       });
   }
@@ -37,7 +39,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
     return this.movies;
   }
 
-  displayOption(option: number) {
-    this.chosenOption = option;
+  setParentFavoriteMovie(movie: IMovie) {
+    this.favoritedMovie = movie;
   }
 }

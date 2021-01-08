@@ -9,6 +9,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 
+import { MovieWatchListComponent } from './movie-watch-list/movie-watch-list.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +18,8 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
     NavBarComponent,
     MovieCardComponent,
     MovieDetailsComponent,
-  ],
+      MovieWatchListComponent
+   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
